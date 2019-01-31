@@ -14,7 +14,7 @@ export default {
   data () {
     return {
       navList:[
-        {name:'/Importdile',navItem:'账单导入'},
+        {name:'/Importdile',navItem:'zhangdan'},
         {name:'/Analysis',navItem:'账单分析'},
         {name:'/Management',navItem:'账号管理'},
         {name:'/Templates',navItem:'模板管理'}
