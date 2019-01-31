@@ -23,7 +23,7 @@ class Base extends Controller
         parent::__construct($app);
         $this->checklogin();
         $this->getTemp();
-        //检查是否有权限访问
+        //检查是否有权限访问//
         $this->checkAuth();
 
     }
