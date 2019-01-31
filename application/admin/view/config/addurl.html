@@ -1,0 +1,116 @@
+{include file="public/header"/}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <br>
+            <br>
+            <br>
+            <div class="ibox-content">
+                <form method="post" class="form-horizontal" onsubmit="return false;" id="power_form">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">导航标题</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" name="power_name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">上级目录</label>
+                        <div class="col-sm-10">
+                        <select class="form-control m-b" name="pid">
+                            <option value="0">无</option>
+                            {foreach $powerList as $list}
+                            <option value="{$list.id}">{$list.power_name}</option>
+                            {/foreach}
+                        </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">url</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" name="power_url" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">排序值</label>
+
+                        <div class="col-sm-10">
+                            <input type="text"  name="sort" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">是否是导航
+                            <br>
+                            <small class="text-navy"></small>
+                        </label>
+
+                        <div class="col-sm-10">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" value="1"  name="is_temp">是</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" value="0" checked  name="is_temp">否</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">是否展示
+                            <br>
+                            <small class="text-navy"></small>
+                        </label>
+
+                        <div class="col-sm-10">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" checked="" value="1"  name="is_show">是</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" value="0"  name="is_show">否</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <button class="btn btn-primary" onclick="powerform()" type="submit">保存内容</button>
+                            <button class="btn btn-white" type="submit">取消</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer"/}
+<script>
+   function powerform()
+   {
+        var power_name = $("input[name='power_name']").val();
+        var power_url = $("input[name='power_url']").val();
+        var sort = $("input[name='sort']").val();
+        var is_temp = $("input[name='is_temp']:checked").val();
+        var is_show = $("input[name='is_show']:checked").val();
+        var pid = $("select[name='pid']").val();
+        if(power_name.length <= 0 || power_url.length <= 0){
+            layer.msg('请填写相关数据');
+            return false;
+        }
+        $.ajax({
+            url:"{:url('addurl')}",
+            data:{power_name:power_name,power_url:power_url,sort:sort,is_temp:is_temp,is_show:is_show,pid:pid},
+            type:'post',
+            dataType:'json',
+            success:function (evn) {
+                layer.msg(evn.msg)
+            }
+        })
+   }
+</script>
