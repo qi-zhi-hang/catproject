@@ -1,6 +1,6 @@
 const api = {
 	first:{
-		getMember:'web/login'
+		getMember:'api/index/index'
 	}
 }
 

@@ -10,7 +10,7 @@ export default {
 
 */
 
-encrypt (word, keyStr='*#06#') { // 加密
+encrypt (word, keyStr='*#06#*#06#*#06#1') { // 加密
 
 var key = CryptoJS.enc.Utf8.parse(keyStr)
 
@@ -22,7 +22,7 @@ return encrypted.toString()
 
 },
 
-decrypt (word, keyStr) { // 解密
+decrypt (word, keyStr='*#06#*#06#*#06#1') { // 解密
 
 var key = CryptoJS.enc.Utf8.parse(keyStr)
 

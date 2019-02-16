@@ -6,7 +6,7 @@ import Qs from 'qs'
 axios.defaults.timeout = 1000000
 
 //axios.defaults.baseURL = 'http://ssrs.zjmining.org.cn/lshk_test/'
-axios.defaults.baseURL = 'http://127.0.0.1:8088/'
+axios.defaults.baseURL = 'http://tplinux.pabupa.wang/'
 //axios.defaults.baseURL = 'http://20.59.20.180:8700/'
 //axios.defaults.baseURL = 'http://192.168.0.177:8088/'
 //axios.defaults.baseURL = 'http://192.168.0.108:8088/'

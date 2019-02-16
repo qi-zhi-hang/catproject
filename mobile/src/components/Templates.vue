@@ -109,14 +109,20 @@ import utils from '../http/utils.js'
       },
       getmydata(){
         let obj = {
-          params:{
-            name:'qizhihang',
-            password:'123456'
-          }
+            id:'12',
+            name:'999'
         }
-         var formdata = this.utils.encrypt(obj);
-         console.log(formdata)
-         window.$http.post(api.first.getMember,formdata).then((response)=>{
+         var formdata = this.utils.encrypt(JSON.stringify(obj));
+         var data = {
+          params:{
+
+            sign:formdata
+          }
+         }
+        
+         window.$http.post(api.first.getMember,data,{headers:{
+          'sign':formdata
+         }}).then((response)=>{
 
          },(response)=>{
 
