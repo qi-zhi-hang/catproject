@@ -109,19 +109,19 @@ import utils from '../http/utils.js'
       },
       getmydata(){
         let obj = {
-            id:'12',
-            name:'999'
+            did:'pc',
+            'time': (new Date()).getTime()
         }
          var formdata = this.utils.encrypt(JSON.stringify(obj));
          var data = {
           params:{
 
-            sign:formdata
+            'did':'pc',
           }
          }
         
          window.$http.post(api.first.getMember,data,{headers:{
-          'sign':formdata
+          'sign':formdata,'did':'pc'
          }}).then((response)=>{
 
          },(response)=>{

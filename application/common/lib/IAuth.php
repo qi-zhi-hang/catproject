@@ -6,8 +6,11 @@
  * Time: 上午12:27
  */
 namespace app\common\lib;
+use app\api\model\User;
 use app\common\lib\Aes;
-use think\Cache;
+use lib\Tpredis;
+use think\facade\Cache;
+
 /**
  * Iauth相关
  * Class IAuth
@@ -62,6 +65,7 @@ class IAuth {
                 return false;
             }
             if(!config('app_debug')) {
+
                 if ((time() - ceil($arr['time'] / 1000)) > config('myapp.app_sign_time')) {
                     return false;
                 }
@@ -87,6 +91,43 @@ class IAuth {
         $str = md5(uniqid(md5(microtime(true)), true));
         $str = sha1($str.$phone);
         return $str;
+    }
+
+    /**
+     * 验证token是否正确
+     * @param array $data
+     * @return bool
+     */
+    public  static function  checkTokenPass($data=[])
+    {
+        if(empty($data['token'])){
+            return false;
+        }
+        $redis = Tpredis::getRedisInstance();
+        $isToken = $redis->get($data['token']);
+        if(empty($isToken)){
+            return false;
+        }
+        $token = (new Aes())->decrypt($data['token']);
+        $id = explode('||',$token);
+        //获取生成token的时间戳
+        $overtime = $id[2];
+        if(empty($overtime)){
+            return false;
+        }
+        if( time() > ($overtime + 7*24*3600) ){
+            return false;
+        }
+        //获取uid
+        $uid = $id[1];
+        if(empty($uid)){
+            return false;
+        }
+        $info = (new User())->getUserInfoById($uid);
+        if(empty($info)){
+            return false;
+        }
+        return true;
     }
 
 }
