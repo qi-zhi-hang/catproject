@@ -14,7 +14,6 @@ class Index extends Base
     public function index()
     {
         $post_data = input();
-
         return json(['data'=>[888]]);
     }
 }

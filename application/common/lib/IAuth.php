@@ -48,30 +48,33 @@ class IAuth {
      */
     public static function checkSignPass($data) {
         if(isset($data['sign'])){
-        $str = (new Aes())->decrypt($data['sign']);
-        halt(json_decode($str,true));
-        if(empty($str)) {
-            return false;
-        }
+            $str = (new Aes())->decrypt($data['sign']);
+            $str = json_decode($str,true);
+            $str = http_build_query($str);
+            if(empty($str)) {
+                return false;
+            }
+            // diid=xx&app_type=3
+            parse_str($str, $arr);
+            if(!is_array($arr) || empty($arr['did'])
+                || $arr['did'] != $data['did']
+            ) {
+                return false;
+            }
+            if(!config('app_debug')) {
+                if ((time() - ceil($arr['time'] / 1000)) > config('myapp.app_sign_time')) {
+                    return false;
+                }
+                //echo Cache::get($data['sign']);exit;
+                // 唯一性判定
+                if (Cache::get($data['sign'])) {
 
-        // diid=xx&app_type=3
-        parse_str($str, $arr);
-        if(!is_array($arr) || empty($arr['did'])
-            || $arr['did'] != $data['did']
-        ) {
-            return false;
-        }
-        if(!config('app_debug')) {
-            if ((time() - ceil($arr['time'] / 1000)) > config('myapp.app_sign_time')) {
-                return false;
+                    return false;
+                }
             }
-            //echo Cache::get($data['sign']);exit;
-            // 唯一性判定
-            if (Cache::get($data['sign'])) {
-                return false;
-            }
-        }
-        return true;
+             return true;
+        }else{
+             return false;
         }
     }
 
