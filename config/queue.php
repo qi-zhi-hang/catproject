@@ -10,5 +10,14 @@
 // +----------------------------------------------------------------------
 
 return [
-    'connector' => 'Sync'
+    //'connector' => 'Sync'
+    'connector' =>'Redis',
+    'expire'=>120,
+    'default'=>'default',
+    'host' =>'127.0.0.1',
+    'port' =>'6379',
+    'password'=>'qi123456',
+    'select'=>1,
+    'timeout'=>0,
+    'persistent'=>false
 ];

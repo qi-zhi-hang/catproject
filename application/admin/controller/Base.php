@@ -8,6 +8,7 @@
  */
 namespace app\admin\controller;
 use app\admin\model\Adminuser;
+use lib\Tpredis;
 use think\App;
 use think\Controller;
 use think\Db;
@@ -29,8 +30,18 @@ class Base extends Controller
     }
     private function getTemp()
     {
-        $temp = Db::name('power')->select();
-        //halt($temp);
+        $redis = Tpredis::getRedisInstance();
+        $navigation = $redis->get('Navigation');
+        if(empty($navigation)){
+            $temp = Db::name('power')->select();
+            $result = serialize($temp);
+            $redis->set('Navigation',$result);
+        }else{
+
+            $temp = unserialize($navigation);
+        }
+
+
         return $this->assign('temp',$temp);
     }
 

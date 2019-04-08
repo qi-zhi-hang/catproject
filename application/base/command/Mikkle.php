@@ -36,6 +36,8 @@ class Mikkle extends Command
     {
 
         $redis = Tpredis::getRedisInstance();
+        $redis->selectdb(15);
+       // var_dump($a);
         $redis->setOption();
         $redis->psubscribe(['__keyevent@'.'15'.'__:expired'],function($redis, $pattern, $channel, $msg){
             echo "Pattern: $pattern\n";
